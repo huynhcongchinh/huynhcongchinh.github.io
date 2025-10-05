@@ -133,7 +133,7 @@ img {
   margin-bottom: 8px;
   padding: 10px 24px;
   border-radius: 6px;
-  background: linear-gradient(90deg, #ff7e5f 0%, #feb47b 100%);
+  background: linear-gradient(90deg, #ff7e5f 0%, #feb47b 100%) !important;
   color: #fff;
   font-size: 1rem;
   font-weight: 500;
@@ -143,7 +143,7 @@ img {
 }
 
 .custom-file-label:hover {
-  background: linear-gradient(90deg, #feb47b 0%, #ff7e5f 100%);
+  background: linear-gradient(90deg, #feb47b 0%, #ff7e5f 100%) !important;
   transform: translateY(-2px) scale(1.04);
 }
 
@@ -154,3 +154,4 @@ img {
   font-size: 0.98rem;
   font-weight: 500;
 }
+
