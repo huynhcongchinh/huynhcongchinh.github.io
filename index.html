@@ -18,7 +18,10 @@
         <h3 class="modal-title">Crop & Áp khung</h3>
       </div>
       <div class="modal-body">
-        <input type="file" id="fileInput" accept="image/*" class="file-input" /><br/><br/>
+        <input type="file" id="fileInput" accept="image/*" class="file-input" style="display:none;" />
+        <label for="fileInput" class="custom-file-label btn">Chọn ảnh của bạn</label>
+        <span id="fileName" class="file-name-label"></span>
+        <br/><br/>
         <div>
           <img id="imgToCrop" src="" alt="Ảnh crop" style="display: none;" />
         </div>
@@ -136,4 +139,5 @@
 </body>
 
 </html>
+
 
