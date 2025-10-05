@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Popup Crop + Overlay Khung</title>
+  <link rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.13/cropper.min.css" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div class="center-container">
+    <button id="openBtn" class="btn">Chọn ảnh để chỉnh</button>
+  </div>
+  <div id="cropModal" class="modal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <span id="closeModal" class="close-btn">&times;</span>
+        <h3 class="modal-title">Crop & Áp khung</h3>
+      </div>
+      <div class="modal-body">
+        <input type="file" id="fileInput" accept="image/*" class="file-input" /><br/><br/>
+        <div>
+          <img id="imgToCrop" src="" alt="Ảnh crop" style="display: none;" />
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button id="cropBtn" class="btn">Crop & Áp khung</button>
+        <button id="cancelBtn" class="btn">Hủy</button>
+      </div>
+    </div>
+  </div>
+  <div class="center-container">
+    <h4 class="result-title">Kết quả:</h4>
+    <canvas id="resultCanvas"></canvas>
+    <br/>
+    <button id="downloadBtn" class="btn">Download ảnh</button>
+  </div>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.13/cropper.min.js"></script>
+  <script>
+    const openBtn = document.getElementById('openBtn');
+    const modal = document.getElementById('cropModal');
+    const closeModal = document.getElementById('closeModal');
+    const cancelBtn = document.getElementById('cancelBtn');
+    const fileInput = document.getElementById('fileInput');
+    const imgToCrop = document.getElementById('imgToCrop');
+    const cropBtn = document.getElementById('cropBtn');
+    const resultCanvas = document.getElementById('resultCanvas');
+    const resultCtx = resultCanvas.getContext('2d');
+    const downloadBtn = document.getElementById('downloadBtn');
+
+    let cropper = null;
+
+    const frameImg = new Image();
+    frameImg.src = 'hoanThanh.png';
+
+    openBtn.addEventListener('click', () => {
+      modal.style.display = 'flex';
+    });
+
+    closeModal.addEventListener('click', () => {
+      modal.style.display = 'none';
+      destroyCropper();
+    });
+    cancelBtn.addEventListener('click', () => {
+      modal.style.display = 'none';
+      destroyCropper();
+    });
+
+    fileInput.addEventListener('change', (e) => {
+      const file = e.target.files[0];
+      if (!file) return;
+
+      const reader = new FileReader();
+      reader.onload = (evt) => {
+        imgToCrop.src = evt.target.result;
+        imgToCrop.style.display = 'block';
+
+        if (cropper) {
+          cropper.destroy();
+        }
+        cropper = new Cropper(imgToCrop, {
+          aspectRatio: 1,
+          viewMode: 1,
+          movable: true,
+          zoomable: true,
+          scalable: false,
+          rotatable: false
+        });
+      };
+      reader.readAsDataURL(file);
+    });
+
+    cropBtn.addEventListener('click', () => {
+      if (!cropper) return;
+      const croppedCanvas = cropper.getCroppedCanvas({
+        width: 1000,
+        height: 1000
+      });
+
+      resultCanvas.width = 1000;
+      resultCanvas.height = 1000;
+
+      resultCtx.clearRect(0, 0, 1000, 1000);
+      resultCtx.drawImage(croppedCanvas, 0, 0, 1000, 1000);
+
+      frameImg.onload = function() {
+        resultCtx.drawImage(frameImg, 0, 0, 1000, 1000);
+      };
+      if (frameImg.complete) {
+        resultCtx.drawImage(frameImg, 0, 0, 1000, 1000);
+      }
+
+      modal.style.display = 'none';
+      cropper.destroy();
+      cropper = null;
+    });
+
+    downloadBtn.addEventListener('click', () => {
+      const dataURL = resultCanvas.toDataURL('image/png');
+      const link = document.createElement('a');
+      link.href = dataURL;
+      link.download = 'quaDepLuon.png';
+      link.click();
+    });
+
+    function destroyCropper() {
+      if (cropper) {
+        cropper.destroy();
+        cropper = null;
+      }
+      imgToCrop.src = '';
+      imgToCrop.style.display = 'none';
+      fileInput.value = '';
+    }
+
+    modal.addEventListener('click', (e) => {
+      if (e.target === modal) {
+        modal.style.display = 'none';
+        destroyCropper();
+      }
+    });
+  </script>
+</body>
+</html>
