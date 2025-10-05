@@ -126,3 +126,31 @@ img {
   border-radius: 8px;
   box-shadow: 0 2px 8px rgba(0,0,0,0.07);
 }
+
+.custom-file-label {
+  display: inline-block;
+  cursor: pointer;
+  margin-bottom: 8px;
+  padding: 10px 24px;
+  border-radius: 6px;
+  background: linear-gradient(90deg, #ff7e5f 0%, #feb47b 100%);
+  color: #fff;
+  font-size: 1rem;
+  font-weight: 500;
+  border: none;
+  box-shadow: 0 2px 8px rgba(255,126,95,0.10);
+  transition: background 0.2s, transform 0.2s;
+}
+
+.custom-file-label:hover {
+  background: linear-gradient(90deg, #feb47b 0%, #ff7e5f 100%);
+  transform: translateY(-2px) scale(1.04);
+}
+
+.file-name-label {
+  display: inline-block;
+  margin-left: 10px;
+  color: #ff4f4f;
+  font-size: 0.98rem;
+  font-weight: 500;
+}
